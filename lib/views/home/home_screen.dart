@@ -92,18 +92,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class WorkerListView extends StatelessWidget {
+class WorkerListView extends StatefulWidget {
   final WorkerStorageService workerService;
 
   const WorkerListView({super.key, required this.workerService});
 
+  @override
+  State<WorkerListView> createState() => _WorkerListViewState();
+}
+
+class _WorkerListViewState extends State<WorkerListView> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: FutureBuilder<List<Worker>>(
-          future: workerService.loadWorkerData(),
+          future: widget.workerService.loadWorkerData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -126,6 +131,26 @@ class WorkerListView extends StatelessWidget {
                       title: Text(worker.name),
                       subtitle: Text(
                         'Age: ${worker.age}, Contact: ${worker.contactNumber}, Wage: \$${worker.wage}',
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          List<Worker> updatedWorkers =
+                              await widget.workerService.loadWorkerData();
+                          updatedWorkers.removeAt(index);
+                          await widget.workerService.saveWorkerData(
+                            updatedWorkers,
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                '✅ Worker "${worker.name}" removed successfully!',
+                              ),
+                            ),
+                          );
+                          setState(() {}); // Refresh UI
+                        },
                       ),
                     ),
                   );
