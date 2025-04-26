@@ -124,33 +124,53 @@ class _WorkerListViewState extends State<WorkerListView> {
                 itemCount: workers.length,
                 itemBuilder: (context, index) {
                   final worker = workers[index];
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
-                    child: ListTile(
-                      leading: const Icon(Icons.person),
-                      title: Text(worker.name),
-                      subtitle: Text(
-                        'Age: ${worker.age}, Contact: ${worker.contactNumber}, Wage: \$${worker.wage}',
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () async {
-                          List<Worker> updatedWorkers =
-                              await widget.workerService.loadWorkerData();
-                          updatedWorkers.removeAt(index);
-                          await widget.workerService.saveWorkerData(
-                            updatedWorkers,
-                          );
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                '✅ Worker "${worker.name}" removed successfully!',
-                              ),
+                  return SingleChildScrollView(
+                    child: SafeArea(
+                      child: Card(
+                        color: Colors.amber[200],
+                        elevation: 2,
+                        shadowColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(10),
+                            right: Radius.circular(10),
+                          ),
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        child: ListTile(
+                          leading: const Icon(Icons.person, size: 20),
+                          title: Text(
+                            worker.name,
+                            style: TextStyle(
+                              color: Colors.blueGrey[900],
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                          );
-                          setState(() {}); // Refresh UI
-                        },
+                          ),
+                          autofocus: true,
+                          dense: true,
+                          iconColor: Colors.blueGrey,
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete, size: 20),
+                            onPressed: () async {
+                              List<Worker> updatedWorkers =
+                                  await widget.workerService.loadWorkerData();
+                              updatedWorkers.removeAt(index);
+                              await widget.workerService.saveWorkerData(
+                                updatedWorkers,
+                              );
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '✅ Worker "${worker.name}" removed successfully!',
+                                  ),
+                                ),
+                              );
+                              setState(() {}); // Refresh UI
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   );
