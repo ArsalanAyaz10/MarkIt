@@ -48,13 +48,13 @@ class _SetPatternState extends State<SetPattern> {
                 }
 
                 if (!isConfirming) {
-                  // First input
+                  // First input pattern check
                   setState(() {
                     firstPattern = input;
                     isConfirming = true;
                   });
                 } else {
-                  // Confirm input
+                  // Confirm input 
                   if (listEquals<int>(input, firstPattern)) {
                     // Patterns match, now save
                     await patternStorage.savePattern(input);

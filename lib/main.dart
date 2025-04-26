@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:markit/view_models/worker_manager.dart';
 import 'package:markit/views/lockscreen/check_pattern.dart';
 import 'package:markit/views/lockscreen/set_pattern.dart';
 import 'package:markit/core/services/pattern_storage_service.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => WorkerManager())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Markit',
       home: FutureBuilder<Widget>(
         future: decideHome(),

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:markit/core/services/pattern_storage_service.dart'; // your service
+import 'package:markit/core/services/pattern_storage_service.dart'; 
 import 'package:markit/views/home/home_screen.dart';
 import 'package:pattern_lock/pattern_lock.dart';
 
@@ -64,7 +64,7 @@ class _CheckPatternState extends State<CheckPattern> {
                   // Pattern matched
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
